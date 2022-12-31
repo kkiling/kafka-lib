@@ -19,6 +19,6 @@ type IConsumer interface {
 	ProcessMessages(ctx context.Context) error
 	AddHandler(ctx context.Context, countHandlers int, handler func(ctx context.Context, msg Message) error)
 	Shutdown() error
-	SubscribeTopics() error
+	Subscribe() error
 	Unsubscribe() error
 }

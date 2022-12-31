@@ -226,15 +226,17 @@ func (k *KafkaConsumer) ProcessMessages(ctx context.Context) error {
 	return k.eventChanHandler(ctx, k.newMessageChan)
 }
 
-func (k *KafkaConsumer) SubscribeTopics() error {
+func (k *KafkaConsumer) Subscribe() error {
 	err := k.consumer.SubscribeTopics(k.cfg.Topics, nil)
 	if err != nil {
 		return fmt.Errorf("failed to subscribe to topics: %w", err)
 	}
+	k.processing = true
 	return nil
 }
 
 func (k *KafkaConsumer) Unsubscribe() error {
+	k.processing = false
 	err := k.consumer.Unsubscribe()
 	if err != nil {
 		return errors.Wrap(err, "failed to unsubscribe from topics")
